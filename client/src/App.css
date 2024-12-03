@@ -26,6 +26,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .app-wrapper .app-title {
@@ -155,4 +156,20 @@ button {
   font-size: 30px;
   outline: none;
   border: 5px solid var(--secondary-color);
+}
+
+.refresh-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 200px;
+}
+
+.refresh-button:hover {
+  background-color: #45a049;
 }

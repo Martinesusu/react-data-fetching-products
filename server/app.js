@@ -89,6 +89,7 @@ let products = [
 
 const app = express();
 const port = 4001;
+const initialProducts = [...products];
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -110,6 +111,14 @@ app.post("/products", (req, res) => {
   });
   res.json({
     message: "Product has been created.",
+  });
+});
+
+app.post("/reset-products", (req, res) => {
+  products = [...initialProducts]; // รีเซ็ตกลับไปยังข้อมูลเริ่มต้น
+  res.json({
+    message: "Products have been reset.",
+    data: products,
   });
 });
 
