@@ -4,6 +4,7 @@ import axios from "axios";
  
 function App() {
   const [productDetails, setProductDetails] = useState([]);
+  const [status, setStatus] = useState("loading"); 
 
   useEffect(() => {
     getProductDetails();
@@ -11,29 +12,38 @@ function App() {
   
   const getProductDetails = async () => {
     try {
+      setStatus("loading");
       const result = await axios.get("http://localhost:4001/products");
       setProductDetails(result.data.data); 
+      setStatus("complete");
     } catch (error) {
       console.error("Error fetching product details:", error);
+      setStatus("failed");
     }
   };
 
   const deleteProduct = async (id) => {
     try {
+      setStatus("loading");
       await axios.delete(`http://localhost:4001/products/${id}`); 
       const updatedProducts = productDetails.filter((product) => product.id !== id); 
       setProductDetails(updatedProducts); 
+      setStatus("complete");
     } catch (error) {
       console.error("Error deleting product:", error);
+      setStatus("failed");
     }
   };
 
   const resetProducts = async () => {
     try {
+      setStatus("loading");
       const result = await axios.post("http://localhost:4001/reset-products"); // เรียก API เพื่อรีเซ็ต
       setProductDetails(result.data.data); 
+      setStatus("complete");
     } catch (error) {
       console.error("Error resetting products:", error);
+      setStatus("failed");
     }
   };
 
@@ -46,6 +56,10 @@ function App() {
           Refresh Products
         </button>
       </div>
+      {/* แสดงสถานะ Loading หรือ Error */}
+      {status === "loading" && <p>Loading...</p>}
+      {status === "failed" && <p>Fetching Error...</p>}
+      {status === "complete" && (
       <div className="product-list">
         {Array.isArray(productDetails) && productDetails.map((product) => (
         <div className="product" key={product.id}>
@@ -67,6 +81,7 @@ function App() {
         </div>
         ))}
       </div>
+      )}
     </div>
   );
 }
